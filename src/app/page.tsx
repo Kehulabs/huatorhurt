@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import AuntyAvatar from "@/components/AuntyAvatar";
+import { cnyAudio } from "@/lib/audio";
 
 const RELATIONSHIPS = [
   { label: "Friend", icon: "👯", sub: "the chosen family" },
@@ -49,6 +50,13 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const holdTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [audioMuted, setAudioMuted] = useState(false);
+  const musicStarted = useRef(false);
+
+  // Stop background music on unmount
+  useEffect(() => {
+    return () => { cnyAudio?.stopBackground(); };
+  }, []);
 
   const goTo = useCallback((nextStep: number) => {
     setVisible(false);
@@ -134,8 +142,28 @@ export default function Home() {
     ? "opacity-100 translate-y-0 scale-100"
     : "opacity-0 translate-y-4 scale-[0.98]";
 
+  const muteButton = musicStarted.current && step >= 1 && step <= 6 ? (
+    <button
+      onClick={() => {
+        const muted = cnyAudio?.toggleMute() ?? false;
+        setAudioMuted(muted);
+      }}
+      className="fixed top-4 right-4 z-50 w-10 h-10 rounded-full flex items-center justify-center
+                 transition-all duration-200 active:scale-90"
+      style={{
+        background: "rgba(255, 255, 255, 0.06)",
+        border: "1px solid rgba(255, 255, 255, 0.1)",
+        backdropFilter: "blur(8px)",
+      }}
+      aria-label={audioMuted ? "Unmute" : "Mute"}
+    >
+      <span className="text-base">{audioMuted ? "🔇" : "🔊"}</span>
+    </button>
+  ) : null;
+
   return (
     <div className="relative min-h-[85dvh] flex flex-col">
+      {muteButton}
       {/* ===== PROGRESS DOTS ===== */}
       {step >= 1 && step <= 5 && (
         <div className="flex items-center justify-center gap-2 pt-4 pb-2">
@@ -216,7 +244,13 @@ export default function Home() {
             {/* CTA */}
             <div className="space-y-4">
               <button
-                onClick={() => goTo(1)}
+                onClick={() => {
+                  if (!musicStarted.current) {
+                    musicStarted.current = true;
+                    cnyAudio?.startBackground();
+                  }
+                  goTo(1);
+                }}
                 className="font-display text-lg tracking-[0.15em] w-full py-4 rounded-2xl
                            hover:scale-[1.02] active:scale-[0.97] transition-all duration-200"
                 style={{

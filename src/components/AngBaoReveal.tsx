@@ -47,6 +47,7 @@ export default function AngBaoReveal({
   const [displayScore, setDisplayScore] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [audioMuted, setAudioMuted] = useState(false);
+  const [envelopeFlipped, setEnvelopeFlipped] = useState(false);
   const hasSecret = secretMessage.trim().length > 0;
   const celebrationPlayed = useRef(false);
 
@@ -181,7 +182,7 @@ export default function AngBaoReveal({
           <p className="font-display text-2xl text-shimmer tracking-wide">CNY Angpow! 🎊</p>
         </div>
 
-        {/* Envelope */}
+        {/* Envelope — flippable */}
         <div className="relative envelope-hover">
           {/* Warm gold glow */}
           <div
@@ -193,102 +194,138 @@ export default function AngBaoReveal({
             }}
           />
 
-          <div
-            className="w-[min(270px,72vw)] aspect-[3/4] rounded-3xl relative overflow-hidden z-10 envelope-breathe"
-            style={{
-              background: "linear-gradient(160deg, #E8243C 0%, #C41E3A 25%, #9B1B30 50%, #6B0F1A 100%)",
-            }}
-          >
-            {/* Holographic sheen overlay */}
-            <div
-              className="absolute inset-0 holo-sheen"
-              style={{
-                background: "linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.08) 45%, rgba(255,248,220,0.08) 50%, rgba(255,215,0,0.04) 55%, transparent 70%)",
-                backgroundSize: "200% 200%",
-              }}
-            />
-
-            {/* Top gold accent line */}
-            <div
-              className="absolute top-0 left-0 right-0 h-[2px]"
-              style={{
-                background: "linear-gradient(90deg, transparent, #FFD700, transparent)",
-              }}
-            />
-
-            {/* Corner flourishes */}
-            <div className="absolute top-4 left-4 text-sm opacity-30" style={{ color: "#FFD700" }}>✦</div>
-            <div className="absolute top-4 right-4 text-sm opacity-30" style={{ color: "#FFD700" }}>✦</div>
-            <div className="absolute bottom-16 left-4 text-[10px] opacity-20" style={{ color: "#FFD700" }}>✦</div>
-            <div className="absolute bottom-16 right-4 text-[10px] opacity-20" style={{ color: "#FFD700" }}>✦</div>
-
-            {/* Top blessing text */}
-            <div className="absolute top-5 left-0 right-0 text-center">
-              <p className="text-[10px] tracking-[0.4em]" style={{ color: "rgba(255, 215, 0, 0.35)" }}>
-                恭喜发财
-              </p>
-            </div>
-
-            {/* Center 福 */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative">
+          <div className="flip-container w-[min(270px,72vw)] z-10">
+            <div className={`flip-card aspect-[3/4] ${envelopeFlipped ? "flipped" : ""}`}>
+              {/* ===== FRONT: Main envelope face ===== */}
+              <div
+                className="flip-front w-full h-full rounded-3xl relative overflow-hidden envelope-breathe"
+                style={{
+                  background: "linear-gradient(160deg, #E8243C 0%, #C41E3A 25%, #9B1B30 50%, #6B0F1A 100%)",
+                }}
+              >
                 <div
-                  className="absolute -inset-8 rounded-full"
+                  className="absolute inset-0 holo-sheen"
                   style={{
-                    border: "1.5px solid rgba(255, 215, 0, 0.2)",
-                    animation: "pulseRing 2s ease-in-out infinite",
+                    background: "linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.08) 45%, rgba(255,248,220,0.08) 50%, rgba(255,215,0,0.04) 55%, transparent 70%)",
+                    backgroundSize: "200% 200%",
                   }}
                 />
-                <div
-                  className="absolute -inset-14 rounded-full"
-                  style={{
-                    border: "1px solid rgba(255, 215, 0, 0.1)",
-                    animation: "pulseRing 2s ease-in-out 0.5s infinite",
-                  }}
-                />
-                <span
-                  className="text-7xl font-bold block"
-                  style={{
-                    color: "#FFD700",
-                    textShadow: "0 0 30px rgba(255, 215, 0, 0.7), 0 0 60px rgba(255, 215, 0, 0.3)",
-                    animation: "symbolPulse 2s ease-in-out infinite",
-                  }}
-                >
-                  福
-                </span>
+                <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, transparent, #FFD700, transparent)" }} />
+                <div className="absolute top-4 left-4 text-sm opacity-30" style={{ color: "#FFD700" }}>✦</div>
+                <div className="absolute top-4 right-4 text-sm opacity-30" style={{ color: "#FFD700" }}>✦</div>
+                <div className="absolute bottom-16 left-4 text-[10px] opacity-20" style={{ color: "#FFD700" }}>✦</div>
+                <div className="absolute bottom-16 right-4 text-[10px] opacity-20" style={{ color: "#FFD700" }}>✦</div>
+                <div className="absolute top-5 left-0 right-0 text-center">
+                  <p className="text-[10px] tracking-[0.4em]" style={{ color: "rgba(255, 215, 0, 0.35)" }}>恭喜发财</p>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="relative">
+                    <div className="absolute -inset-8 rounded-full" style={{ border: "1.5px solid rgba(255, 215, 0, 0.2)", animation: "pulseRing 2s ease-in-out infinite" }} />
+                    <div className="absolute -inset-14 rounded-full" style={{ border: "1px solid rgba(255, 215, 0, 0.1)", animation: "pulseRing 2s ease-in-out 0.5s infinite" }} />
+                    <span className="text-7xl font-bold block" style={{ color: "#FFD700", textShadow: "0 0 30px rgba(255, 215, 0, 0.7), 0 0 60px rgba(255, 215, 0, 0.3)", animation: "symbolPulse 2s ease-in-out infinite" }}>福</span>
+                  </div>
+                </div>
+                <div className="absolute bottom-5 left-0 right-0 text-center">
+                  <p className="text-[10px] tracking-[0.35em] uppercase" style={{ color: "rgba(255, 215, 0, 0.3)" }}>specially for</p>
+                  <p className="font-display text-xl tracking-wider mt-1 text-shimmer">{name.toUpperCase()}</p>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, transparent, #FFD700, transparent)" }} />
+              </div>
+
+              {/* ===== BACK: Decorative CNY pattern ===== */}
+              <div
+                className="flip-back w-full h-full rounded-3xl relative overflow-hidden"
+                style={{
+                  background: "linear-gradient(160deg, #B91C2F 0%, #8B0000 40%, #6B0F1A 100%)",
+                }}
+              >
+                {/* Gold border frame */}
+                <div className="absolute inset-3 rounded-2xl" style={{ border: "1.5px solid rgba(255, 215, 0, 0.2)" }} />
+                <div className="absolute inset-5 rounded-xl" style={{ border: "1px solid rgba(255, 215, 0, 0.1)" }} />
+
+                {/* Corner knot motifs */}
+                <div className="absolute top-6 left-6 text-lg" style={{ color: "rgba(255, 215, 0, 0.3)" }}>◇</div>
+                <div className="absolute top-6 right-6 text-lg" style={{ color: "rgba(255, 215, 0, 0.3)" }}>◇</div>
+                <div className="absolute bottom-6 left-6 text-lg" style={{ color: "rgba(255, 215, 0, 0.3)" }}>◇</div>
+                <div className="absolute bottom-6 right-6 text-lg" style={{ color: "rgba(255, 215, 0, 0.3)" }}>◇</div>
+
+                {/* Central decorative content */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center px-8 text-center">
+                  {/* Decorative top ornament */}
+                  <div className="text-xs tracking-[0.5em] mb-3" style={{ color: "rgba(255, 215, 0, 0.25)" }}>
+                    ✦ ✦ ✦
+                  </div>
+
+                  {/* Vertical blessing characters */}
+                  <div className="flex flex-col items-center gap-2 mb-4">
+                    {["大", "吉", "大", "利"].map((char, i) => (
+                      <span
+                        key={i}
+                        className="text-3xl font-bold block"
+                        style={{
+                          color: "#FFD700",
+                          textShadow: "0 0 20px rgba(255, 215, 0, 0.5)",
+                          opacity: 0.7,
+                        }}
+                      >
+                        {char}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Translation */}
+                  <p className="text-[9px] tracking-[0.3em] uppercase" style={{ color: "rgba(255, 215, 0, 0.3)" }}>
+                    great luck &amp; prosperity
+                  </p>
+
+                  {/* Bottom ornament */}
+                  <div className="text-xs tracking-[0.5em] mt-3" style={{ color: "rgba(255, 215, 0, 0.25)" }}>
+                    ✦ ✦ ✦
+                  </div>
+                </div>
+
+                {/* Subtle pattern overlay */}
+                <div className="absolute inset-0 opacity-[0.03]" style={{
+                  backgroundImage: `repeating-linear-gradient(45deg, #FFD700 0px, #FFD700 1px, transparent 1px, transparent 12px),
+                                    repeating-linear-gradient(-45deg, #FFD700 0px, #FFD700 1px, transparent 1px, transparent 12px)`,
+                }} />
+
+                {/* Top & bottom accent lines */}
+                <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, transparent, #FFD700, transparent)" }} />
+                <div className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, transparent, #FFD700, transparent)" }} />
               </div>
             </div>
-
-            {/* Bottom — recipient name */}
-            <div className="absolute bottom-5 left-0 right-0 text-center">
-              <p className="text-[10px] tracking-[0.35em] uppercase" style={{ color: "rgba(255, 215, 0, 0.3)" }}>
-                specially for
-              </p>
-              <p className="font-display text-xl tracking-wider mt-1 text-shimmer">
-                {name.toUpperCase()}
-              </p>
-            </div>
-
-            {/* Bottom gold accent line */}
-            <div
-              className="absolute bottom-0 left-0 right-0 h-[2px]"
-              style={{
-                background: "linear-gradient(90deg, transparent, #FFD700, transparent)",
-              }}
-            />
           </div>
         </div>
 
-        {/* TAP TO OPEN — warm, inviting */}
+        {/* TAP TO OPEN + FLIP BUTTON */}
         <div className="text-center space-y-3 z-10">
-          <p
-            className="font-display text-xl tracking-[0.3em] text-shimmer"
-          >
+          <p className="font-display text-xl tracking-[0.3em] text-shimmer">
             TAP TO OPEN
           </p>
           <div className="flex items-center justify-center gap-2">
             <span className="text-xl" style={{ animation: "tapBounce 1s ease-in-out infinite" }}>👆</span>
           </div>
+
+          {/* Flip envelope button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              cnyAudio?.playFlip();
+              setEnvelopeFlipped(!envelopeFlipped);
+            }}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full font-display text-[10px] tracking-[0.15em]
+                       transition-all duration-200 hover:scale-105 active:scale-95 mt-1"
+            style={{
+              background: "rgba(255, 215, 0, 0.06)",
+              border: "1px solid rgba(255, 215, 0, 0.15)",
+              color: "rgba(255, 215, 0, 0.45)",
+            }}
+          >
+            <span className="inline-block transition-transform duration-300" style={{ transform: envelopeFlipped ? "rotateY(180deg)" : "none" }}>🔄</span>
+            {envelopeFlipped ? "FLIP BACK" : "FLIP ENVELOPE"}
+          </button>
+
           <p className="text-[10px] tracking-wider" style={{ color: "rgba(255, 215, 0, 0.2)" }}>
             恭喜发财 · gong xi fa cai
           </p>
