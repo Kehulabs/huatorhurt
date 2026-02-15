@@ -136,7 +136,7 @@ export default function AuntyAvatar({ size = "large", showBubble = true, classNa
         {/* Speech bubble */}
         {showBubble && (
           <div
-            className="absolute -top-14 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-2 rounded-2xl text-center"
+            className="absolute -top-14 left-1/2 -translate-x-1/2 w-max max-w-[220px] px-4 py-2 rounded-2xl text-center"
             style={{
               background: "rgba(255, 255, 255, 0.95)",
               color: "#3D0C00",

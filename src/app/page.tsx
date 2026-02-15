@@ -179,9 +179,9 @@ export default function Home() {
         {step === 0 && (
           <div className="text-center px-4 w-full">
             {/* Brand hero */}
-            <div className="space-y-6 mb-10">
+            <div className="space-y-5 mb-8">
               {/* Aunty character */}
-              <div className="mb-2 pt-6">
+              <div className="mb-1 pt-4">
                 <AuntyAvatar size="large" showBubble={true} />
               </div>
 
@@ -272,7 +272,7 @@ export default function Home() {
             <button
               onClick={() => form.name.trim() && goTo(2)}
               disabled={!form.name.trim()}
-              className={`font-display text-base tracking-[0.15em] w-full py-3.5 rounded-xl
+              className={`font-display text-base tracking-[0.15em] w-full py-3.5 rounded-2xl
                           transition-all duration-300
                 ${
                   form.name.trim()
@@ -364,7 +364,7 @@ export default function Home() {
 
             <button
               onClick={() => goTo(3)}
-              className="font-display text-base tracking-[0.15em] w-full py-3.5 rounded-xl
+              className="font-display text-base tracking-[0.15em] w-full py-3.5 rounded-2xl
                          hover:scale-[1.02] active:scale-[0.97] transition-all duration-200"
               style={{
                 background: "linear-gradient(135deg, #FFD700 0%, #FFF1A8 30%, #FFD700 60%, #DAA520 100%)",
@@ -531,7 +531,7 @@ export default function Home() {
 
             <button
               onClick={() => goTo(6)}
-              className="font-display text-base tracking-[0.15em] w-full py-3.5 rounded-xl
+              className="font-display text-base tracking-[0.15em] w-full py-3.5 rounded-2xl
                          hover:scale-[1.02] active:scale-[0.97] transition-all duration-200"
               style={{
                 background: "linear-gradient(135deg, #FFD700 0%, #FFF1A8 30%, #FFD700 60%, #DAA520 100%)",
@@ -667,7 +667,7 @@ export default function Home() {
                     setTimeout(() => setCopied(false), 2000);
                   }
                 }}
-                className="font-display text-base tracking-[0.15em] w-full py-4 rounded-xl
+                className="font-display text-base tracking-[0.15em] w-full py-4 rounded-2xl
                            hover:scale-[1.02] active:scale-[0.97] transition-all duration-200"
                 style={{
                   background: "linear-gradient(135deg, #FF4D6D 0%, #FF8FA3 40%, #FF4D6D 70%, #E6375A 100%)",

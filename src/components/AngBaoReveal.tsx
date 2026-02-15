@@ -399,11 +399,11 @@ export default function AngBaoReveal({
   // PHASE 3: REVEALED
   // ==========================================
   return (
-    <div className="flex flex-col items-center gap-5 py-4 card-entrance">
+    <div className="flex flex-col items-center gap-5 py-4">
       {/* Score announcement */}
       <div
-        className="w-full text-center py-2 mega-bounce"
-        style={{ animationDelay: "0.1s" }}
+        className="w-full text-center py-2 stagger-up"
+        style={{ animationDelay: "0.05s" }}
       >
         <p className="text-[10px] tracking-[0.3em] font-display" style={{ color: "rgba(255, 77, 109, 0.5)" }}>
           THE RESULTS ARE IN
@@ -411,7 +411,7 @@ export default function AngBaoReveal({
       </div>
 
       {/* ===== FLIP CARD ===== */}
-      <div className="flip-container w-full mega-bounce" style={{ animationDelay: "0.2s" }}>
+      <div className="flip-container w-full card-entrance" style={{ animationDelay: "0.1s" }}>
         <div className={`flip-card ${flipped ? "flipped" : ""}`}>
           {/* ===== FRONT: ROAST CARD ===== */}
           <div
@@ -460,7 +460,7 @@ export default function AngBaoReveal({
               {/* Score number */}
               <div className="relative inline-block">
                 <span
-                  className={`font-display text-[88px] leading-none bg-gradient-to-b ${scoreStyle.gradient} bg-clip-text`}
+                  className={`font-display text-[72px] leading-none bg-gradient-to-b ${scoreStyle.gradient} bg-clip-text`}
                   style={{
                     WebkitTextFillColor: "transparent",
                     filter: `drop-shadow(0 0 25px ${scoreStyle.glow})`,
@@ -533,9 +533,13 @@ export default function AngBaoReveal({
                 >
                   &ldquo;
                 </span>
-                <p className="text-[15px] font-medium leading-relaxed text-center relative z-10" style={{ color: "rgba(255, 248, 231, 0.9)" }}>
-                  {roastMessage}
-                </p>
+                <div className="text-[15px] font-medium leading-relaxed text-center relative z-10" style={{ color: "rgba(255, 248, 231, 0.9)" }}>
+                  {roastMessage.split("\n\n").map((part, i) => (
+                    <p key={i} className={i > 0 ? "mt-3 text-[13px] font-normal" : ""} style={i > 0 ? { color: "rgba(255, 215, 0, 0.45)" } : undefined}>
+                      {part}
+                    </p>
+                  ))}
+                </div>
               </div>
 
               {/* Blessing */}
@@ -643,10 +647,10 @@ export default function AngBaoReveal({
       {hasSecret && (
         <button
           onClick={() => setFlipped(!flipped)}
-          className="mega-bounce flip-hint-pulse flex items-center gap-2 px-5 py-2.5 rounded-full font-display text-xs tracking-[0.15em]
+          className="stagger-up flip-hint-pulse flex items-center gap-2 px-5 py-2.5 rounded-full font-display text-xs tracking-[0.15em]
                      transition-all duration-200 hover:scale-105 active:scale-95"
           style={{
-            animationDelay: "0.4s",
+            animationDelay: "0.35s",
             background: "rgba(255, 255, 255, 0.03)",
             border: "1px solid rgba(255, 255, 255, 0.08)",
             color: flipped ? "rgba(255, 77, 109, 0.6)" : "rgba(255, 215, 0, 0.5)",
@@ -660,7 +664,7 @@ export default function AngBaoReveal({
       )}
 
       {/* ===== ACTION BUTTONS ===== */}
-      <div className="w-full space-y-3 mega-bounce" style={{ animationDelay: "0.5s" }}>
+      <div className="w-full space-y-3 stagger-up" style={{ animationDelay: "0.45s" }}>
         <button
           onClick={handleShare}
           className="w-full py-4 rounded-2xl font-display text-base tracking-[0.15em]
