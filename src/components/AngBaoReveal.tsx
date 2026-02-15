@@ -110,7 +110,7 @@ export default function AngBaoReveal({
   if (phase === "envelope") {
     return (
       <div
-        className="flex flex-col items-center justify-center min-h-[85vh] gap-6 cursor-pointer select-none relative"
+        className="flex flex-col items-center justify-center min-h-[85dvh] gap-5 cursor-pointer select-none relative"
         onClick={handleTap}
       >
         {/* Floating emoji background */}
@@ -151,7 +151,7 @@ export default function AngBaoReveal({
           />
 
           <div
-            className="w-[270px] h-[360px] rounded-3xl relative overflow-hidden z-10 envelope-breathe"
+            className="w-[min(270px,72vw)] aspect-[3/4] rounded-3xl relative overflow-hidden z-10 envelope-breathe"
             style={{
               background: "linear-gradient(160deg, #E8243C 0%, #C41E3A 25%, #9B1B30 50%, #6B0F1A 100%)",
             }}
@@ -259,12 +259,12 @@ export default function AngBaoReveal({
   // ==========================================
   if (phase === "opening") {
     return (
-      <div className="flex items-center justify-center min-h-[85vh] overflow-hidden relative">
+      <div className="flex items-center justify-center min-h-[85dvh] overflow-hidden relative">
         {/* Golden flash overlay */}
         <div className="fixed inset-0 z-50 pointer-events-none golden-flash" />
 
         {/* Container — shakes then tears */}
-        <div className="relative tear-container" style={{ width: 270, height: 360 }}>
+        <div className="relative tear-container w-[min(270px,72vw)] aspect-[3/4]">
 
           {/* Golden crack line in center */}
           <div
@@ -286,7 +286,7 @@ export default function AngBaoReveal({
             style={{ clipPath: TEAR_LEFT_CLIP }}
           >
             <div
-              className="w-[270px] h-[360px] rounded-3xl relative overflow-hidden"
+              className="w-full h-full rounded-3xl relative overflow-hidden"
               style={{
                 background: "linear-gradient(160deg, #E8243C 0%, #C41E3A 25%, #9B1B30 50%, #6B0F1A 100%)",
               }}
@@ -317,7 +317,7 @@ export default function AngBaoReveal({
             style={{ clipPath: TEAR_RIGHT_CLIP }}
           >
             <div
-              className="w-[270px] h-[360px] rounded-3xl relative overflow-hidden"
+              className="w-full h-full rounded-3xl relative overflow-hidden"
               style={{
                 background: "linear-gradient(160deg, #E8243C 0%, #C41E3A 25%, #9B1B30 50%, #6B0F1A 100%)",
               }}
@@ -439,7 +439,7 @@ export default function AngBaoReveal({
               {/* Score number */}
               <div className="relative inline-block">
                 <span
-                  className={`font-display text-[72px] leading-none bg-gradient-to-b ${scoreStyle.gradient} bg-clip-text`}
+                  className={`font-display text-[60px] sm:text-[72px] leading-none bg-gradient-to-b ${scoreStyle.gradient} bg-clip-text`}
                   style={{
                     WebkitTextFillColor: "transparent",
                     filter: `drop-shadow(0 0 25px ${scoreStyle.glow})`,
@@ -623,24 +623,22 @@ export default function AngBaoReveal({
       </div>
 
       {/* ===== FLIP BUTTON ===== */}
-      {hasSecret && (
-        <button
-          onClick={() => setFlipped(!flipped)}
-          className="stagger-up flip-hint-pulse flex items-center gap-2 px-5 py-2.5 rounded-full font-display text-xs tracking-[0.15em]
-                     transition-all duration-200 hover:scale-105 active:scale-95"
-          style={{
-            animationDelay: "0.35s",
-            background: "rgba(255, 255, 255, 0.03)",
-            border: "1px solid rgba(255, 255, 255, 0.08)",
-            color: flipped ? "rgba(255, 77, 109, 0.6)" : "rgba(255, 215, 0, 0.5)",
-          }}
-        >
-          <span className="inline-block transition-transform duration-300" style={{ transform: flipped ? "rotateY(180deg)" : "none" }}>
-            🔄
-          </span>
-          {flipped ? "FLIP TO ROAST" : "FLIP FOR SECRET NOTE 🤫"}
-        </button>
-      )}
+      <button
+        onClick={() => setFlipped(!flipped)}
+        className="stagger-up flip-hint-pulse flex items-center gap-2 px-5 py-2.5 rounded-full font-display text-xs tracking-[0.15em]
+                   transition-all duration-200 hover:scale-105 active:scale-95"
+        style={{
+          animationDelay: "0.35s",
+          background: "rgba(255, 255, 255, 0.03)",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          color: flipped ? "rgba(255, 77, 109, 0.6)" : "rgba(255, 215, 0, 0.5)",
+        }}
+      >
+        <span className="inline-block transition-transform duration-300" style={{ transform: flipped ? "rotateY(180deg)" : "none" }}>
+          🔄
+        </span>
+        {flipped ? "FLIP TO ROAST" : "FLIP FOR SECRET NOTE 🤫"}
+      </button>
 
       {/* ===== ACTION BUTTON ===== */}
       <div className="w-full stagger-up" style={{ animationDelay: "0.45s" }}>

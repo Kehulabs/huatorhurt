@@ -135,7 +135,7 @@ export default function Home() {
     : "opacity-0 translate-y-4 scale-[0.98]";
 
   return (
-    <div className="relative min-h-[85vh] flex flex-col">
+    <div className="relative min-h-[85dvh] flex flex-col">
       {/* ===== PROGRESS DOTS ===== */}
       {step >= 1 && step <= 5 && (
         <div className="flex items-center justify-center gap-2 pt-4 pb-2">
@@ -163,8 +163,9 @@ export default function Home() {
       {step >= 1 && step <= 5 && (
         <button
           onClick={() => goTo(step - 1)}
-          className="absolute top-4 left-0 text-white/25 hover:text-white/50
-                     transition-colors text-sm flex items-center gap-1.5 z-10"
+          className="absolute top-2 left-0 text-white/25 hover:text-white/50
+                     transition-colors text-sm flex items-center gap-1.5 z-10
+                     min-h-[44px] min-w-[44px] px-2"
         >
           <span className="text-base leading-none">&larr;</span>
           <span className="text-[11px] font-medium tracking-wider">BACK</span>
@@ -188,11 +189,11 @@ export default function Home() {
               {/* Brand name — typographic hero with split treatment */}
               <div className="relative">
                 <div className="flex items-center justify-center gap-3">
-                  <span className="font-display text-shimmer text-[56px] leading-[0.85] tracking-tight">
+                  <span className="font-display text-shimmer text-[44px] sm:text-[56px] leading-[0.85] tracking-tight">
                     HUAT
                   </span>
                   <span className="brand-or">OR</span>
-                  <span className="font-display text-shimmer-coral text-[56px] leading-[0.85] tracking-tight">
+                  <span className="font-display text-shimmer-coral text-[44px] sm:text-[56px] leading-[0.85] tracking-tight">
                     HURT
                   </span>
                 </div>
