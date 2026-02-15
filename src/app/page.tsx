@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import AuntyAvatar from "@/components/AuntyAvatar";
 
 const RELATIONSHIPS = [
   { label: "Friend", icon: "👯", sub: "the chosen family" },
@@ -179,16 +180,9 @@ export default function Home() {
           <div className="text-center px-4 w-full">
             {/* Brand hero */}
             <div className="space-y-6 mb-10">
-              {/* Angpow emoji */}
-              <div className="relative mx-auto w-20 h-20 flex items-center justify-center mb-2">
-                <div className="absolute inset-0 rounded-full pulse-ring-expand" style={{ border: "1.5px solid rgba(255, 77, 109, 0.2)" }} />
-                <div className="absolute inset-0 rounded-full pulse-ring-expand" style={{ border: "1.5px solid rgba(255, 215, 0, 0.15)", animationDelay: "0.7s" }} />
-                <div
-                  className="text-7xl hero-glow"
-                  style={{ animation: "wobble 3s ease-in-out infinite" }}
-                >
-                  🧧
-                </div>
+              {/* Aunty character */}
+              <div className="mb-2 pt-6">
+                <AuntyAvatar size="large" showBubble={true} />
               </div>
 
               {/* Brand name — typographic hero with split treatment */}
@@ -663,8 +657,8 @@ export default function Home() {
                 onClick={() => {
                   if (navigator.share) {
                     navigator.share({
-                      title: `${form.name}'s CNY Angpow — HuatOrHurt`,
-                      text: `Eh ${form.name}, someone sent you an angpow. Open it lah 🧧`,
+                      title: `${form.name}, you received a CNY Angpow! 🧧`,
+                      text: `Hey ${form.name}! Someone sent you a special CNY angpow 🧧 Open it to see what's inside!`,
                       url: shareUrl,
                     }).catch(() => {});
                   } else {

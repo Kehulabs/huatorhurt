@@ -671,6 +671,13 @@ input:-webkit-autofill {
   animation: checkPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
 }
 
+/* Speech bubble pop-in */
+@keyframes bubblePop {
+  0% { opacity: 0; transform: translateX(-50%) scale(0.8) translateY(4px); }
+  50% { transform: translateX(-50%) scale(1.05) translateY(-1px); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
+}
+
 /* ===== UTILITIES ===== */
 @layer utilities {
   .text-shadow-gold {

@@ -8,8 +8,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "HuatOrHurt Angpows",
-  description: "Why give money when you can give roasted love this CNY?",
+  title: "CNY Angpow 🧧",
+  description: "Someone sent you a special CNY angpow! Open it to see what's inside 🧧✨",
 };
 
 export default function RootLayout({

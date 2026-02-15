@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useMemo } from "react";
 import Link from "next/link";
+import AuntyAvatar from "@/components/AuntyAvatar";
 
 interface AngBaoRevealProps {
   name: string;
@@ -28,8 +29,8 @@ function getScoreLabel(score: number): { text: string; emoji: string } {
   return { text: "DOWN BAD", emoji: "💀" };
 }
 
-// Floating emojis for envelope phase
-const FLOAT_EMOJIS = ["🧧", "💰", "✨", "🔥", "💀", "🎆", "🧨", "💸"];
+// Floating emojis for envelope phase — wholesome CNY vibes (no hints!)
+const FLOAT_EMOJIS = ["🧧", "💰", "✨", "🎊", "🏮", "🎋", "🍊", "🎆"];
 
 // Jagged tear clip paths for fortune cracker effect
 const TEAR_LEFT_CLIP = "polygon(0% 0%, 52% 0%, 48% 6%, 53% 12%, 47% 18%, 52% 24%, 48% 30%, 53% 36%, 47% 42%, 52% 48%, 48% 54%, 53% 60%, 47% 66%, 52% 72%, 48% 78%, 53% 84%, 47% 90%, 52% 96%, 48% 100%, 0% 100%)";
@@ -152,13 +153,19 @@ export default function AngBaoReveal({
           ))}
         </div>
 
+        {/* Greeting text above envelope */}
+        <div className="text-center z-10 space-y-1">
+          <p className="text-white/30 text-xs tracking-wider">Someone sent you a</p>
+          <p className="font-display text-2xl text-shimmer tracking-wide">CNY Angpow! 🎊</p>
+        </div>
+
         {/* Envelope */}
         <div className="relative envelope-hover">
-          {/* Soft glow ring */}
+          {/* Warm gold glow */}
           <div
-            className="absolute -inset-3 rounded-[28px] opacity-50"
+            className="absolute -inset-4 rounded-[28px] opacity-40"
             style={{
-              background: "radial-gradient(ellipse at center, rgba(255, 77, 109, 0.2) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse at center, rgba(255, 215, 0, 0.25) 0%, transparent 70%)",
               filter: "blur(20px)",
               animation: "envelopeBreathe 2.5s ease-in-out infinite",
             }}
@@ -174,22 +181,31 @@ export default function AngBaoReveal({
             <div
               className="absolute inset-0 holo-sheen"
               style={{
-                background: "linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.08) 45%, rgba(255,200,255,0.06) 50%, rgba(100,255,255,0.06) 55%, transparent 70%)",
+                background: "linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.08) 45%, rgba(255,248,220,0.08) 50%, rgba(255,215,0,0.04) 55%, transparent 70%)",
                 backgroundSize: "200% 200%",
               }}
             />
 
-            {/* Top accent line — coral to gold */}
+            {/* Top gold accent line */}
             <div
               className="absolute top-0 left-0 right-0 h-[2px]"
               style={{
-                background: "linear-gradient(90deg, #FF4D6D, #FFD700, #FF4D6D)",
+                background: "linear-gradient(90deg, transparent, #FFD700, transparent)",
               }}
             />
 
-            {/* Corner marks */}
+            {/* Corner flourishes */}
             <div className="absolute top-4 left-4 text-sm opacity-30" style={{ color: "#FFD700" }}>✦</div>
             <div className="absolute top-4 right-4 text-sm opacity-30" style={{ color: "#FFD700" }}>✦</div>
+            <div className="absolute bottom-16 left-4 text-[10px] opacity-20" style={{ color: "#FFD700" }}>✦</div>
+            <div className="absolute bottom-16 right-4 text-[10px] opacity-20" style={{ color: "#FFD700" }}>✦</div>
+
+            {/* Top blessing text */}
+            <div className="absolute top-5 left-0 right-0 text-center">
+              <p className="text-[10px] tracking-[0.4em]" style={{ color: "rgba(255, 215, 0, 0.35)" }}>
+                恭喜发财
+              </p>
+            </div>
 
             {/* Center 福 */}
             <div className="absolute inset-0 flex items-center justify-center">
@@ -221,43 +237,38 @@ export default function AngBaoReveal({
               </div>
             </div>
 
-            {/* Bottom info */}
-            <div className="absolute bottom-6 left-0 right-0 text-center">
-              <p className="text-[10px] tracking-[0.4em] uppercase" style={{ color: "rgba(255, 215, 0, 0.3)" }}>
-                a roast for
+            {/* Bottom — recipient name */}
+            <div className="absolute bottom-5 left-0 right-0 text-center">
+              <p className="text-[10px] tracking-[0.35em] uppercase" style={{ color: "rgba(255, 215, 0, 0.3)" }}>
+                specially for
               </p>
               <p className="font-display text-xl tracking-wider mt-1 text-shimmer">
                 {name.toUpperCase()}
               </p>
             </div>
 
-            {/* Bottom accent line */}
+            {/* Bottom gold accent line */}
             <div
               className="absolute bottom-0 left-0 right-0 h-[2px]"
               style={{
-                background: "linear-gradient(90deg, #FFD700, #FF4D6D, #FFD700)",
+                background: "linear-gradient(90deg, transparent, #FFD700, transparent)",
               }}
             />
           </div>
         </div>
 
-        {/* TAP TO OPEN */}
+        {/* TAP TO OPEN — warm, inviting */}
         <div className="text-center space-y-3 z-10">
-          <div className="glitch-wrapper">
-            <p
-              className="font-display text-2xl tracking-[0.4em] glitch-text neon-flicker"
-              data-text="TAP TO OPEN"
-            >
-              TAP TO OPEN
-            </p>
-          </div>
+          <p
+            className="font-display text-xl tracking-[0.3em] text-shimmer"
+          >
+            TAP TO OPEN
+          </p>
           <div className="flex items-center justify-center gap-2">
             <span className="text-xl" style={{ animation: "tapBounce 1s ease-in-out infinite" }}>👆</span>
-            <span className="text-xl" style={{ animation: "tapBounce 1s ease-in-out 0.3s infinite" }}>👆</span>
-            <span className="text-xl" style={{ animation: "tapBounce 1s ease-in-out 0.6s infinite" }}>👆</span>
           </div>
-          <p className="text-[10px] tracking-widest" style={{ color: "rgba(255, 255, 255, 0.12)" }}>
-            (if you dare)
+          <p className="text-[10px] tracking-wider" style={{ color: "rgba(255, 215, 0, 0.2)" }}>
+            恭喜发财 · gong xi fa cai
           </p>
         </div>
       </div>
@@ -500,13 +511,19 @@ export default function AngBaoReveal({
               <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.04)" }} />
             </div>
 
-            {/* Roast message — the hero */}
+            {/* Aunty + Roast message */}
             <div className="px-5 py-5 space-y-4">
+              {/* Small aunty */}
+              <div className="flex justify-center roast-entrance" style={{ animationDelay: "0.3s" }}>
+                <AuntyAvatar size="small" showBubble={false} />
+              </div>
+
               <div
                 className="relative rounded-2xl px-5 py-5 roast-entrance"
                 style={{
                   background: "rgba(255, 77, 109, 0.06)",
                   border: "1px solid rgba(255, 77, 109, 0.12)",
+                  animationDelay: "0.4s",
                 }}
               >
                 {/* Decorative quote mark */}
