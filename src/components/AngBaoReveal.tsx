@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import AuntyAvatar from "@/components/AuntyAvatar";
+import { cnyAudio } from "@/lib/audio";
 
 interface AngBaoRevealProps {
   name: string;
@@ -45,7 +46,9 @@ export default function AngBaoReveal({
   const [phase, setPhase] = useState<"envelope" | "opening" | "revealed">("envelope");
   const [displayScore, setDisplayScore] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const [audioMuted, setAudioMuted] = useState(false);
   const hasSecret = secretMessage.trim().length > 0;
+  const celebrationPlayed = useRef(false);
 
   // Pre-generate random values for floating emojis (stable across renders)
   const floatingEmojis = useMemo(() =>
@@ -73,19 +76,32 @@ export default function AngBaoReveal({
 
   const handleTap = useCallback(() => {
     if (phase !== "envelope") return;
+    // Audio: gong hit + start background music
+    cnyAudio?.playGong();
+    cnyAudio?.startBackground();
     setPhase("opening");
   }, [phase]);
 
   // Opening -> revealed after 2.2s
   useEffect(() => {
     if (phase !== "opening") return;
+    // Play tear sound timed with animation (0.5s shake then tear)
+    const tearTimer = setTimeout(() => cnyAudio?.playTear(), 450);
     const timer = setTimeout(() => setPhase("revealed"), 2200);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(tearTimer);
+      clearTimeout(timer);
+    };
   }, [phase]);
 
   // Score count-up animation
   useEffect(() => {
     if (phase !== "revealed") return;
+    // Play celebration fanfare on reveal
+    if (!celebrationPlayed.current) {
+      celebrationPlayed.current = true;
+      cnyAudio?.playCelebration();
+    }
     const duration = 1800;
     const startTime = performance.now();
     function animate(now: number) {
@@ -101,8 +117,33 @@ export default function AngBaoReveal({
     requestAnimationFrame(animate);
   }, [phase, energyScore]);
 
+  // Stop background music on unmount
+  useEffect(() => {
+    return () => { cnyAudio?.stopBackground(); };
+  }, []);
+
   const scoreStyle = getScoreColor(energyScore);
   const scoreLabel = getScoreLabel(energyScore);
+
+  const muteButton = (
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        const muted = cnyAudio?.toggleMute() ?? false;
+        setAudioMuted(muted);
+      }}
+      className="fixed top-4 right-4 z-50 w-10 h-10 rounded-full flex items-center justify-center
+                 transition-all duration-200 active:scale-90"
+      style={{
+        background: "rgba(255, 255, 255, 0.06)",
+        border: "1px solid rgba(255, 255, 255, 0.1)",
+        backdropFilter: "blur(8px)",
+      }}
+      aria-label={audioMuted ? "Unmute" : "Mute"}
+    >
+      <span className="text-base">{audioMuted ? "🔇" : "🔊"}</span>
+    </button>
+  );
 
   // ==========================================
   // PHASE 1: ENVELOPE
@@ -113,6 +154,8 @@ export default function AngBaoReveal({
         className="flex flex-col items-center justify-center min-h-[85dvh] gap-5 cursor-pointer select-none relative"
         onClick={handleTap}
       >
+        {muteButton}
+
         {/* Floating emoji background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {floatingEmojis.map((e, i) => (
@@ -260,6 +303,8 @@ export default function AngBaoReveal({
   if (phase === "opening") {
     return (
       <div className="flex items-center justify-center min-h-[85dvh] overflow-hidden relative">
+        {muteButton}
+
         {/* Golden flash overlay */}
         <div className="fixed inset-0 z-50 pointer-events-none golden-flash" />
 
@@ -379,6 +424,8 @@ export default function AngBaoReveal({
   // ==========================================
   return (
     <div className="flex flex-col items-center gap-5 py-4">
+      {muteButton}
+
       {/* Score announcement */}
       <div
         className="w-full text-center py-2 stagger-up"
@@ -624,7 +671,7 @@ export default function AngBaoReveal({
 
       {/* ===== FLIP BUTTON ===== */}
       <button
-        onClick={() => setFlipped(!flipped)}
+        onClick={() => { cnyAudio?.playFlip(); setFlipped(!flipped); }}
         className="stagger-up flip-hint-pulse flex items-center gap-2 px-5 py-2.5 rounded-full font-display text-xs tracking-[0.15em]
                    transition-all duration-200 hover:scale-105 active:scale-95"
         style={{
