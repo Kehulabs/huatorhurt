@@ -24,7 +24,6 @@ export default async function OpenPage({ params }: PageProps) {
       roastMessage={angbao.roastMessage}
       blessing={angbao.blessing}
       secretMessage={angbao.secretMessage}
-      id={angbao.id}
     />
   );
 }

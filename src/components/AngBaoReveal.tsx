@@ -10,7 +10,6 @@ interface AngBaoRevealProps {
   roastMessage: string;
   blessing: string;
   secretMessage: string;
-  id: string;
 }
 
 function getScoreColor(score: number) {
@@ -22,11 +21,11 @@ function getScoreColor(score: number) {
 }
 
 function getScoreLabel(score: number): { text: string; emoji: string } {
-  if (score >= 81) return { text: "MAIN CHARACTER ENERGY", emoji: "👑" };
-  if (score >= 61) return { text: "SLAY ADJACENT", emoji: "💅" };
-  if (score >= 41) return { text: "MID ENERGY", emoji: "✋" };
-  if (score >= 21) return { text: "NOT GREAT BESTIE", emoji: "😬" };
-  return { text: "DOWN BAD", emoji: "💀" };
+  if (score >= 81) return { text: "AUNTIE APPROVED", emoji: "👑" };
+  if (score >= 61) return { text: "CAN MAKE IT LAH", emoji: "👍" };
+  if (score >= 41) return { text: "SO-SO ONLY", emoji: "😐" };
+  if (score >= 21) return { text: "NEED TO TRY HARDER", emoji: "😬" };
+  return { text: "HOPELESS CASE", emoji: "💀" };
 }
 
 // Floating emojis for envelope phase — wholesome CNY vibes (no hints!)
@@ -42,10 +41,8 @@ export default function AngBaoReveal({
   roastMessage,
   blessing,
   secretMessage,
-  id,
 }: AngBaoRevealProps) {
   const [phase, setPhase] = useState<"envelope" | "opening" | "revealed">("envelope");
-  const [copied, setCopied] = useState(false);
   const [displayScore, setDisplayScore] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const hasSecret = secretMessage.trim().length > 0;
@@ -103,24 +100,6 @@ export default function AngBaoReveal({
     }
     requestAnimationFrame(animate);
   }, [phase, energyScore]);
-
-  async function handleShare() {
-    const url = `${window.location.origin}/open/${id}`;
-    try {
-      await navigator.clipboard.writeText(url);
-    } catch {
-      const textarea = document.createElement("textarea");
-      textarea.value = url;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textarea);
-    }
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  }
 
   const scoreStyle = getScoreColor(energyScore);
   const scoreLabel = getScoreLabel(energyScore);
@@ -406,7 +385,7 @@ export default function AngBaoReveal({
         style={{ animationDelay: "0.05s" }}
       >
         <p className="text-[10px] tracking-[0.3em] font-display" style={{ color: "rgba(255, 77, 109, 0.5)" }}>
-          THE RESULTS ARE IN
+          AUNTIE&apos;S VERDICT
         </p>
       </div>
 
@@ -500,7 +479,7 @@ export default function AngBaoReveal({
                 />
               </div>
               <p className="text-[10px] mt-1.5 font-display tracking-widest" style={{ color: "rgba(255,255,255,0.15)" }}>
-                {energyScore} / 100
+                AUNTIE RATES YOU {energyScore}/100
               </p>
             </div>
 
@@ -663,35 +642,17 @@ export default function AngBaoReveal({
         </button>
       )}
 
-      {/* ===== ACTION BUTTONS ===== */}
-      <div className="w-full space-y-3 stagger-up" style={{ animationDelay: "0.45s" }}>
-        <button
-          onClick={handleShare}
-          className="w-full py-4 rounded-2xl font-display text-base tracking-[0.15em]
-                     hover:scale-[1.02] active:scale-[0.96]
-                     transition-all duration-200"
-          style={{
-            background: copied
-              ? "linear-gradient(135deg, #34D399, #6EE7B7)"
-              : "linear-gradient(135deg, #FF4D6D 0%, #FF8FA3 40%, #FF4D6D 70%, #E6375A 100%)",
-            color: copied ? "#064E3B" : "#fff",
-            boxShadow: copied
-              ? "0 4px 25px rgba(52, 211, 153, 0.3)"
-              : "0 4px 25px rgba(255, 77, 109, 0.3)",
-          }}
-        >
-          {copied ? "LINK COPIED ✓" : "SEND TO VICTIM 💀"}
-        </button>
-
+      {/* ===== ACTION BUTTON ===== */}
+      <div className="w-full stagger-up" style={{ animationDelay: "0.45s" }}>
         <Link
           href="/"
-          className="block w-full py-3.5 rounded-2xl font-display text-sm tracking-[0.15em] text-center
+          className="block w-full py-4 rounded-2xl font-display text-base tracking-[0.15em] text-center
                      hover:scale-[1.02] active:scale-[0.96]
                      transition-all duration-200"
           style={{
-            background: "rgba(255, 255, 255, 0.03)",
-            border: "1px solid rgba(255, 255, 255, 0.06)",
-            color: "rgba(255, 255, 255, 0.3)",
+            background: "linear-gradient(135deg, #FF4D6D 0%, #FF8FA3 40%, #FF4D6D 70%, #E6375A 100%)",
+            color: "#fff",
+            boxShadow: "0 4px 25px rgba(255, 77, 109, 0.3)",
           }}
         >
           ROAST SOMEONE ELSE 🔥
