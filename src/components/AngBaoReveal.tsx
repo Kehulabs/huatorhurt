@@ -709,19 +709,29 @@ export default function AngBaoReveal({
       {/* ===== FLIP BUTTON ===== */}
       <button
         onClick={() => { cnyAudio?.playFlip(); setFlipped(!flipped); }}
-        className="stagger-up flip-hint-pulse flex items-center gap-2 px-5 py-2.5 rounded-full font-display text-xs tracking-[0.15em]
-                   transition-all duration-200 hover:scale-105 active:scale-95"
+        className="stagger-up w-full flex items-center justify-center gap-3 px-6 py-3.5 rounded-2xl font-display text-sm tracking-[0.15em]
+                   transition-all duration-200 hover:scale-[1.02] active:scale-[0.96]"
         style={{
           animationDelay: "0.35s",
-          background: "rgba(255, 255, 255, 0.03)",
-          border: "1px solid rgba(255, 255, 255, 0.08)",
-          color: flipped ? "rgba(255, 77, 109, 0.6)" : "rgba(255, 215, 0, 0.5)",
+          background: flipped
+            ? "linear-gradient(135deg, rgba(255, 77, 109, 0.15) 0%, rgba(255, 77, 109, 0.08) 100%)"
+            : "linear-gradient(135deg, rgba(255, 215, 0, 0.12) 0%, rgba(255, 77, 109, 0.08) 100%)",
+          border: flipped
+            ? "1.5px solid rgba(255, 77, 109, 0.3)"
+            : "1.5px solid rgba(255, 215, 0, 0.25)",
+          color: flipped ? "#FF8FA3" : "#FFD700",
+          boxShadow: flipped
+            ? "0 0 20px rgba(255, 77, 109, 0.15)"
+            : "0 0 20px rgba(255, 215, 0, 0.1)",
         }}
       >
-        <span className="inline-block transition-transform duration-300" style={{ transform: flipped ? "rotateY(180deg)" : "none" }}>
-          🔄
+        <span className="text-lg">
+          {flipped ? "↩️" : "🤫"}
         </span>
-        {flipped ? "FLIP TO ROAST" : "FLIP FOR SECRET NOTE 🤫"}
+        {flipped ? "BACK TO ROAST" : "SEE SECRET NOTE"}
+        <span className="text-lg">
+          {flipped ? "" : "→"}
+        </span>
       </button>
 
       {/* ===== ACTION BUTTON ===== */}
